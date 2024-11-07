@@ -1,0 +1,65 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    width: 100dvw;
+    height: 100dvh;
+    overflow: auto;
+}
+
+body {
+    background: linear-gradient(to bottom, darkolivegreen 0%, burlywood 100%) no-repeat;
+    text-align: center;
+}
+
+table {
+    border: solid 1px;
+    background-color: whitesmoke;
+    margin: 0 auto;
+    width: 33dvw;
+    height: 33dvw;
+
+    & td {
+        position: relative;
+        border: dashed 2px;
+        width: 1.5em;
+        font-size: 1.5em;
+        background-color: darkgreen;
+        color: darkgreen;
+        z-index: 1;
+    }
+}
+
+h1 {
+    font-family: sans-serif;
+    color: whitesmoke;
+    font-size: 3em;
+    margin: 5vh;
+}
+
+i.fa-flag {
+    position: absolute;
+    color: red;
+    visibility: hidden;
+    right: 0px;
+    left: 0px;
+}
+
+.modalInicio {
+    position: absolute;
+    width: 100dvw;
+    height: 100dvh;
+    background-color: rgba(0,0,0,0.8);
+    z-index: 2;
+
+    & .modalPrueba {
+        width: 33vw;
+        height: 33vh;
+        background-color: pink;
+        display: inline-block;
+        margin: 20dvh auto;
+        z-index: 3;
+    }
+}

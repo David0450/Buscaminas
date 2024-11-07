@@ -11,14 +11,19 @@
 <title>Prueba</title>
 </head>
 <body>
-        <div class="modalInicio">
+        <!--<div class="modalInicio">
             <div class="modalPrueba">
-                <p>Dimensiones del tablero:</p>
-                <input type="range" min="10" max="20">
+                <h2>Dimensiones del tablero</h2>
+                <p>Número de filas:</p>
+                <input name="filas" type="number" min="10" max="20" autocomplete="off" onkeydown="comprobarInput(this)">
+                <p>Número de columnas:</p>
+                <input name="columnas" type="number" min="10" max="20" autocomplete="off" onkeydown="comprobarInput(this)">
+                <table id="displayTablero">
+                </table>
             </div>
-        </div>
+        </div>-->
         <h1>Buscaminas</h1>
-        <table id="tabla">
+        <table id="tablero">
             <tbody id="tbody"></tbody>
         </table>
     <script src="script.js"></script>

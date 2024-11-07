@@ -12,9 +12,10 @@ html, body {
 body {
     background: linear-gradient(to bottom, darkolivegreen 0%, burlywood 100%) no-repeat;
     text-align: center;
+    font-family: sans-serif;
 }
 
-table {
+#tablero {
     border: solid 1px;
     background-color: whitesmoke;
     margin: 0 auto;
@@ -26,14 +27,14 @@ table {
         border: dashed 2px;
         width: 1.5em;
         font-size: 1.5em;
-        background-color: darkgreen;
-        color: darkgreen;
+        background-color: olivedrab;
+        color:olivedrab ;
         z-index: 1;
+        cursor: pointer;
     }
 }
 
 h1 {
-    font-family: sans-serif;
     color: whitesmoke;
     font-size: 3em;
     margin: 5vh;
@@ -55,8 +56,8 @@ i.fa-flag {
     z-index: 2;
 
     & .modalPrueba {
-        width: 33vw;
-        height: 33vh;
+        width: 33dvw;
+        height: 33dvw;
         background-color: pink;
         display: inline-block;
         margin: 20dvh auto;

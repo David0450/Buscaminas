@@ -62,16 +62,17 @@ class Buscaminas {
     }
     
     asignarMinas() {
-        let esMina;
-        for (let x = 0; x < this.numeroFilas; x++) {
-            for (let y = 0; y < this.numeroColumnas; y++) {
-                esMina = Math.random() < 0.5 ? true : false;
-                if (this.numeroMinas <= 0) return;
-                if (esMina == true) {
-                    this.numeroMinas--;
-                    this.tablero[x][y] = '<i class="fa-solid fa-bomb"></i>';
-                    this.asignarNumeros(x, y);
-                }   
+        let filaMina;
+        let columnaMina;
+        while (this.numeroMinas > 0) {
+            filaMina = Math.trunc(Math.random() * this.numeroFilas);
+            columnaMina = Math.trunc(Math.random() * this.numeroColumnas);
+            console.log(filaMina);
+            console.log(columnaMina);
+            if (this.tablero[filaMina][columnaMina] != '<i class="fa-solid fa-bomb"></i>') {
+                this.tablero[filaMina][columnaMina] = '<i class="fa-solid fa-bomb"></i>';
+                this.numeroMinas--;
+                this.asignarNumeros(filaMina, columnaMina);
             }
         }
     }
@@ -105,6 +106,8 @@ class Buscaminas {
         el.style.backgroundColor = 'whitesmoke';
         el.style.color = 'black';
         el.oncontextmenu = '';  
+        el.children.item(0).style.visibility = 'hidden';
+        el.style.cursor = 'default';
     }
 
     colocarBandera(el, event) {
@@ -113,7 +116,7 @@ class Buscaminas {
             if (el.children.item(0).style.visibility == 'hidden') {
                 el.children.item(0).style.visibility = 'visible';
             } else {
-                el.children.item(0).style.visibility = 'hidden'
+                el.children.item(0).style.visibility = 'hidden';
             }
         }
     }
@@ -121,7 +124,15 @@ class Buscaminas {
 }
 
 
-const partida = new Buscaminas(12,12,50);
+const partida = new Buscaminas(12,12,24);
 
 partida.asignarMinas();
 partida.dibujarTablero();
+
+function comprobarInput(el) {
+    if (el.name == 'filas') {
+        for (let i = 0; i < el.value; i++) {
+            document.getElementById('displayTablero').insertAdjacentHTML("afterbegin","<tr><td style='background-color: white'></td></tr>")
+        }
+    }
+}

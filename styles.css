@@ -6,26 +6,28 @@
 html, body {
     width: 100dvw;
     height: 100dvh;
-    overflow: auto;
+    overflow:auto;
 }
 
 body {
     background: linear-gradient(to bottom, darkolivegreen 0%, burlywood 100%) no-repeat;
+    background-size: cover;
     text-align: center;
     font-family: sans-serif;
 }
 
 #tablero {
     border: solid 1px;
-    background-color: whitesmoke;
+    background-color: black;
+    width: 40vw;
+    height: 40vw;
     margin: 0 auto;
-    width: 33dvw;
-    height: 33dvw;
+
 
     & td {
         position: relative;
-        border: dashed 2px;
-        width: 1.5em;
+        width: 5%;
+        height: 5%;
         font-size: 1.5em;
         background-color: olivedrab;
         color:olivedrab ;
@@ -37,7 +39,7 @@ body {
 h1 {
     color: whitesmoke;
     font-size: 3em;
-    margin: 5vh;
+    margin: 0.2em;
 }
 
 i.fa-flag {
@@ -48,7 +50,7 @@ i.fa-flag {
     left: 0px;
 }
 
-.modalInicio {
+#modalInicio {
     position: absolute;
     width: 100dvw;
     height: 100dvh;
@@ -56,11 +58,23 @@ i.fa-flag {
     z-index: 2;
 
     & .modalPrueba {
-        width: 33dvw;
-        height: 33dvw;
+        margin: 5vh auto;
+        width: 50dvw;
+        height: 90dvh;
         background-color: pink;
         display: inline-block;
-        margin: 20dvh auto;
         z-index: 3;
+
+        & table {
+            margin: 0 auto;
+            width: 35vw;
+            height: 35vw;
+            background-color: wheat;
+
+            & td {
+                background-color: whitesmoke;
+                border: 1px solid;
+            }   
+        }
     }
 }

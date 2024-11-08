@@ -11,17 +11,138 @@
 <title>Prueba</title>
 </head>
 <body>
-        <!--<div class="modalInicio">
+        <div id="modalInicio">
             <div class="modalPrueba">
                 <h2>Dimensiones del tablero</h2>
-                <p>Número de filas:</p>
-                <input name="filas" type="number" min="10" max="20" autocomplete="off" onkeydown="comprobarInput(this)">
-                <p>Número de columnas:</p>
-                <input name="columnas" type="number" min="10" max="20" autocomplete="off" onkeydown="comprobarInput(this)">
-                <table id="displayTablero">
+                <p>Número de filas:<input id="inputFilas" type="number" min="10" max="20" value="10" autocomplete="off" onchange="comprobarInput()"></p>
+                <p>Número de columnas:<input id="inputColumnas" type="number" min="10" max="20" value="10" autocomplete="off" onchange="comprobarInput()"></p>
+                <table>
+                    <tbody id="displayTablero">
+                        <tr id="displayFila0">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr id="displayFila1">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr id="displayFila2">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr id="displayFila3">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr id="displayFila4">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr id="displayFila5">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr id="displayFila6">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr id="displayFila7">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr id="displayFila8">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr id="displayFila9">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
                 </table>
+                <button onclick="confirmarDimensiones()">Confirmar</button>
             </div>
-        </div>-->
+        </div>
         <h1>Buscaminas</h1>
         <table id="tablero">
             <tbody id="tbody"></tbody>

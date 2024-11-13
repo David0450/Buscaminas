@@ -4,12 +4,14 @@ class Buscaminas {
     numeroMinas; // Numero de minas en el tablero
     tableroHTML; // El tablero HTML (tbody con sus tr y td)
     tablero; // Un array multidimensional del tablero
+    numeroCasillasReveladas;
 
     constructor(numeroFilas, numeroColumnas, numeroMinas) {
         this.tableroHTML = document.getElementById("tbody");
         this.numeroColumnas = numeroColumnas;
         this.numeroFilas = numeroFilas;
         this.numeroMinas = numeroMinas;
+        this.numeroCasillasReveladas = 0;
         this.tablero = new Array(this.numeroFilas).fill(0).map(() => new Array(this.numeroColumnas).fill(0));
     }
 
@@ -66,10 +68,10 @@ class Buscaminas {
     dibujarTablero() {
         for (let x = 0; x < this.numeroFilas; x++) { 
             // Por cada fila inserta un td con un id de su número de fila
-            this.tableroHTML.insertAdjacentHTML("afterbegin", "<tr id='fila"+x+"'></tr>");
+            this.tableroHTML.innerHTML += "<tr id='fila"+x+"'></tr>";
             for (let y = 0; y < this.numeroColumnas; y++) {
                 // Por cada columna crea un td con sus funciones onclick y oncontextmenu junto con el contenido del array del tablero en ese mismo vector
-                document.getElementById("fila"+x+"").insertAdjacentHTML("afterbegin","<td onclick='partida.revelarCasilla(this)' oncontextmenu='partida.colocarBandera(this, event)'><i class='fa-solid fa-flag'></i>"+this.tablero[x][y]+"</td>");
+                document.getElementById("fila"+x+"").innerHTML += "<td onclick='partida.revelarCasilla(this)' oncontextmenu='partida.colocarBandera(this, event)'><i class='fa-solid fa-flag'></i>"+this.tablero[x][y]+"</td>";
             }
         }
     }
@@ -86,8 +88,17 @@ class Buscaminas {
         el.style.cursor = 'default';
 
         // Si la casilla revelada contiene un icono de bomba se llama a la función hasPerdido()
-        if (el.children.item(1).classList.contains('fa-bomb')) {
-            this.hasPerdido(el);
+        if (el.children.item(1)) {
+            if (el.children.item(1).classList.contains('fa-bomb')) {
+                this.hasPerdido(el);
+            }
+        }
+        console.log(this.numeroCasillasReveladas);
+        console.log(((this.numeroFilas*this.numeroColumnas) - this.numeroMinas));
+        this.numeroCasillasReveladas++;
+        if (this.numeroCasillasReveladas == ((this.numeroFilas*this.numeroColumnas) - this.numeroMinas)) {
+            console.log("a");
+            this.hasGanado();
         }
     }
 
@@ -128,18 +139,30 @@ class Buscaminas {
     }
 
     hasPerdido(casilla) {
-        /*
-        TODO: Cuando se haya revelado una mina se llama a esta función y se muestra al usuario que ha perdido
-        */
         this.resolverPartida();
         casilla.style.backgroundColor = 'firebrick';
     }
 
     hasGanado() {
         /*
-        TODO: Cuando se hayan revelado todas las casillas menos las minas se llama a esta función y se muestra al usuario que ha ganado
+        TODO: Comprobar que se llama a la función cuando se han revelado todas las casillas menos las que contienen minas
         */
-
+        /* Cuando se llama a la función revela todas las casillas,
+        mostrando las minas con un fondo rojo
+        y los números con un fondo verde*/
+        for (let x = 0; x < this.numeroFilas; x++) {
+            for (let y = 0; y < this.numeroColumnas; y++) {
+                document.getElementById("fila"+x).children.item(y).style.backgroundColor = 'mediumseagreen'
+                document.getElementById("fila"+x).children.item(y).style.color = 'black';
+                document.getElementById("fila"+x).children.item(y).style.cursor = 'default';
+                document.getElementById("fila"+x).children.item(y).onclick = '';
+                document.getElementById("fila"+x).children.item(y).oncontextmenu = '';
+                document.getElementById("fila"+x).children.item(y).children.item(0).style.visibility = 'hidden';
+                if (document.getElementById("fila"+x).children.item(y).children.item(1) && document.getElementById("fila"+x).children.item(y).children.item(1).classList.contains('fa-bomb')) {
+                    document.getElementById("fila"+x).children.item(y).style.backgroundColor = 'firebrick';
+                }
+            }
+        }
     }
 }
 
@@ -210,7 +233,6 @@ function confirmarDimensiones() {
     partida.setTablero(numeroFilas,numeroColumnas,numeroMinas);
     partida.asignarMinas();
 }
-
 
 
 const partida = new Buscaminas(0,0,0);

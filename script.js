@@ -52,6 +52,7 @@ class Buscaminas {
     numeroColumnas;
     numeroMinas;
     tableroHTML;
+    tablero;
 
     constructor(numeroFilas, numeroColumnas, numeroMinas) {
         this.tableroHTML = document.getElementById("tbody");
@@ -59,6 +60,25 @@ class Buscaminas {
         this.numeroFilas = numeroFilas;
         this.numeroMinas = numeroMinas;
         this.tablero = new Array(this.numeroFilas).fill(0).map(() => new Array(this.numeroColumnas).fill(0));
+    }
+
+    setFilas(numeroFilas) {
+        return this.numeroFilas = numeroFilas;
+    }
+
+    setMinas(numeroMinas) {
+        return this.numeroMinas = numeroMinas;
+    }
+
+    setColumnas(numeroColumnas) {
+        return this.numeroColumnas = numeroColumnas;
+    }
+
+    setTablero(numeroFilas, numeroColumnas, numeroMinas) {
+        this.setFilas(numeroFilas);
+        this.setColumnas(numeroColumnas);
+        this.setMinas(numeroMinas);
+        return this.tablero = new Array(this.numeroFilas).fill(0).map(() => new Array(this.numeroColumnas).fill(0));
     }
     
     asignarMinas() {
@@ -73,6 +93,7 @@ class Buscaminas {
                 this.asignarNumeros(filaMina, columnaMina);
             }
         }
+        this.dibujarTablero();
     }
 
 /*     probabilidadMina(iteracion) {
@@ -103,6 +124,7 @@ class Buscaminas {
     revelarCasilla(el) {
         el.style.backgroundColor = 'whitesmoke';
         el.style.color = 'black';
+        el.onclick = '';
         el.oncontextmenu = '';  
         el.children.item(0).style.visibility = 'hidden';
         el.style.cursor = 'default';
@@ -133,21 +155,44 @@ function comprobarInput() {
     } */
     table.innerHTML = '';
 
-    var a = document.getElementById('inputFilas').value;
-    var b = document.getElementById('inputColumnas').value;
+    let inputFilasValue = parseInt(document.getElementById('inputFilas').value);
+    let inputColumnasValue = parseInt(document.getElementById('inputColumnas').value);
+    let inputMinas = document.getElementById('inputMinas');
+    let numMinas = parseInt(inputMinas.value)  < Math.trunc((inputFilasValue*inputColumnasValue)/6) ? Math.trunc((inputFilasValue*inputColumnasValue)/6) : parseInt(inputMinas.value);
+    
+    inputMinas.value = numMinas;
+    inputMinas.min = Math.trunc((inputFilasValue*inputColumnasValue)/6);
+    inputMinas.max = Math.trunc((inputFilasValue*inputColumnasValue)/2);
 
-    for (let i = 0; i < a; i++) {
-        table.insertAdjacentHTML("afterbegin", "<tr id=displayFila"+i+"></tr>");
-        document.getElementById('displayFila'+i).insertAdjacentHTML("afterbegin","<td></td>".repeat(b));
+    let filasRojas = Math.trunc(numMinas/inputColumnasValue);
+    console.log(inputMinas.value);
+    let restoRojas = numMinas % inputColumnasValue;
+
+    for (let i = 0; i < filasRojas; i++) {
+        table.innerHTML += "<tr id=displayFila"+i+"></tr>";
+        document.getElementById('displayFila'+i).innerHTML = "<td style='background-color:red'></td>".repeat(inputColumnasValue);
+    }
+
+    table.innerHTML += "<tr id=displayFila"+filasRojas+"></tr>";
+    document.getElementById('displayFila'+filasRojas).innerHTML = "<td style='background-color: red'></td>".repeat(restoRojas);
+    document.getElementById('displayFila'+filasRojas).innerHTML += "<td></td>".repeat(inputColumnasValue - restoRojas);
+    
+    for (let i = filasRojas+1; i < inputFilasValue; i++) {
+        table.innerHTML += "<tr id=displayFila"+i+"></tr>";
+        document.getElementById('displayFila'+i).innerHTML = "<td></td>".repeat(inputColumnasValue);
     }
 }
 
 function confirmarDimensiones() {
     let numeroColumnas = parseInt(document.getElementById('inputColumnas').value);
     let numeroFilas = parseInt(document.getElementById('inputFilas').value);
+    let numeroMinas = parseInt(document.getElementById('inputMinas').value);
     document.getElementById('modalInicio').style.display = 'none';
     
-    const partida = new Buscaminas(numeroFilas,numeroColumnas,24);
+    partida.setTablero(numeroFilas,numeroColumnas,numeroMinas);
     partida.asignarMinas();
-    partida.dibujarTablero();
 }
+
+
+
+const partida = new Buscaminas(0,0,0);

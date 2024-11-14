@@ -12,7 +12,7 @@ class Buscaminas {
         this.numeroFilas = numeroFilas;
         this.numeroMinas = numeroMinas;
         this.numeroCasillasReveladas = 0;
-        this.tablero = new Array(this.numeroFilas).fill(0).map(() => new Array(this.numeroColumnas).fill(0));
+        this.tablero = new Array(this.numeroFilas).map(() => new Array(this.numeroColumnas).fill(0));
     }
 
     setFilas(numeroFilas) {
@@ -66,50 +66,117 @@ class Buscaminas {
     }
 
     dibujarTablero() {
+        this.tableroHTML.innerHTML = '';
         for (let x = 0; x < this.numeroFilas; x++) { 
             // Por cada fila inserta un td con un id de su número de fila
             this.tableroHTML.innerHTML += "<tr id='fila"+x+"'></tr>";
             for (let y = 0; y < this.numeroColumnas; y++) {
                 // Por cada columna crea un td con sus funciones onclick y oncontextmenu junto con el contenido del array del tablero en ese mismo vector
-                document.getElementById("fila"+x+"").innerHTML += "<td onclick='partida.revelarCasilla(this)' oncontextmenu='partida.colocarBandera(this, event)'><i class='fa-solid fa-flag'></i>"+this.tablero[x][y]+"</td>";
+                document.getElementById("fila"+x+"").innerHTML += "<td id='f"+x+"c"+y+"' onclick='partida.revelarCasilla(this)' oncontextmenu='partida.colocarBandera(this, event)'><i class='fa-solid fa-flag'></i>"+this.tablero[x][y]+"</td>";
             }
         }
     }
 
-    revelarCasilla(el) {
+    revelarCasilla(casilla) {
         /* Al hacer click en una casilla (el), se cambian sus estilos para revelar su contenido, 
         se eliminan sus funciones onclick y oncontextmenu
         y se oculta el icono de bandera que contiene*/
-        el.style.backgroundColor = 'whitesmoke';
-        el.style.color = 'black';
-        el.onclick = '';
-        el.oncontextmenu = '';  
-        el.children.item(0).style.visibility = 'hidden';
-        el.style.cursor = 'default';
+        casilla.style.backgroundColor = 'whitesmoke';
+        casilla.style.color = 'black';
+        casilla.onclick = '';
+        casilla.oncontextmenu = '';  
+        casilla.children.item(0).style.visibility = 'hidden';
+        casilla.style.cursor = 'default';
 
-        // Si la casilla revelada contiene un icono de bomba se llama a la función hasPerdido()
-        if (el.children.item(1)) {
-            if (el.children.item(1).classList.contains('fa-bomb')) {
-                this.hasPerdido(el);
-            }
+        // Si la casilla (elemento <td>) tiene un segundo elemento hijo (<i>) se llama a la función hasPerdido()
+        if (casilla.children.item(1)) {
+            this.hasPerdido(casilla);
+        } else if(casilla.innerHTML.includes('0')) { // Si la casilla es un 0 se llama a la función revelarCasillasVacias
+            this.revelarCasillasVacias(casilla);
         }
-        console.log(this.numeroCasillasReveladas);
-        console.log(((this.numeroFilas*this.numeroColumnas) - this.numeroMinas));
-        this.numeroCasillasReveladas++;
+
+        /* Cada vez que se revela una casilla aumenta el contador,
+        de esta forma se comprueba si: casillasReveladas = casillasTotales - totalMinas
+        si esto es verdadero, solo quedan sin revelar las minas y has ganado*/
+        this.numeroCasillasReveladas++; 
         if (this.numeroCasillasReveladas == ((this.numeroFilas*this.numeroColumnas) - this.numeroMinas)) {
-            console.log("a");
             this.hasGanado();
         }
     }
 
-    colocarBandera(el, event) {
+    revelarCasillasVacias(casilla) {
+        // Cuando se llama a esta función va a revelar todas las casillas adyacentes que no sean bombas
+        /* Las casillas tienen un id='f0c0' donde 'f0' es el número de fila y 'c0' es el número de columna
+        de esta forma saco las coordenadas de la siguiente forma...*/
+        let coordenadas = casilla.id.split('f').join('').split('c');
+        let fila = parseInt(coordenadas[0]);
+        let columna = parseInt(coordenadas[1]);
+        if (columna-1 >= 0) { // Si la columna no se sale del tablero...
+            let casillaIzquierda = document.getElementById("fila"+(fila)).children.item(columna-1);
+            // Si la casilla no tiene bomba y no se ha revelado...
+            if (!casillaIzquierda.children.item(1) && casillaIzquierda.style.backgroundColor != 'whitesmoke') {
+                this.revelarCasilla(casillaIzquierda);
+            }
+        }
+        if (columna+1 != this.numeroColumnas) { // Si la columna no se sale del tablero...
+            let casillaDerecha = document.getElementById("fila"+(fila)).children.item(columna+1);
+            // Si la casilla no tiene bomba y no se ha revelado...
+            if (!casillaDerecha.children.item(1) && casillaDerecha.style.backgroundColor != 'whitesmoke') {
+                this.revelarCasilla(casillaDerecha);
+            }
+        }
+        if (fila-1 >= 0) { // Si la fila no se sale del tablero...
+            let casillaSuperior = document.getElementById("fila"+(fila-1)).children.item(columna);
+             // Si la casilla no tiene bomba y no se ha revelado...
+            if (!casillaSuperior.children.item(1) && casillaSuperior.style.backgroundColor != 'whitesmoke') {
+                this.revelarCasilla(casillaSuperior);
+            }
+            if (columna-1 >= 0) { // A su vez va a intentar revelar la casilla situada arriba a la izquierda
+                let casillaIzquierda = document.getElementById("fila"+(fila-1)).children.item(columna-1);
+                // Si la casilla no tiene bomba y no se ha revelado...
+                if (!casillaIzquierda.children.item(1) && casillaIzquierda.style.backgroundColor != 'whitesmoke') {
+                    this.revelarCasilla(casillaIzquierda);
+                }
+            }
+            if (columna+1 != this.numeroColumnas) {// A su vez va a intentar revelar la casilla situada arriba a la derecha
+                let casillaDerecha = document.getElementById("fila"+(fila-1)).children.item(columna+1);
+                // Si la casilla no tiene bomba y no se ha revelado...
+                if (!casillaDerecha.children.item(1) && casillaDerecha.style.backgroundColor != 'whitesmoke') {
+                    this.revelarCasilla(casillaDerecha);
+                }
+            }
+        }
+        if (fila+1 != this.numeroFilas) {
+            let casillaInferior = document.getElementById("fila"+(fila+1)).children.item(columna);
+            // Si la casilla no tiene bomba y no se ha revelado...
+            if (!casillaInferior.children.item(1) && casillaInferior.style.backgroundColor != 'whitesmoke') {
+                this.revelarCasilla(casillaInferior);
+            }
+            if (columna-1 >= 0) { // A su vez va a intentar revelar la casilla situada abajo a la izquierda
+                let casillaIzquierda = document.getElementById("fila"+(fila+1)).children.item(columna-1);
+                // Si la casilla no tiene bomba y no se ha revelado...
+                if (!casillaIzquierda.children.item(1) && casillaIzquierda.style.backgroundColor != 'whitesmoke') {
+                    this.revelarCasilla(casillaIzquierda);
+                }
+            }
+            if (columna+1 != this.numeroColumnas) { // A su vez va a intentar revelar la casilla situada abajo a la derecha
+                let casillaDerecha = document.getElementById("fila"+(fila+1)).children.item(columna+1);
+                // Si la casilla no tiene bomba y no se ha revelado...
+                if (!casillaDerecha.children.item(1) && casillaDerecha.style.backgroundColor != 'whitesmoke') {
+                    this.revelarCasilla(casillaDerecha);
+                }
+            }
+        }
+    }
+
+    colocarBandera(casilla, event) {
         /* Al hacer click derecho, no se ejecuta el menú contextual (preventDefault()) 
         y si la bandera no esta visible la muestra en pantalla y viceversa*/
         event.preventDefault();
-        if (el.children.item(0).style.visibility == 'hidden') {
-            el.children.item(0).style.visibility = 'visible';
+        if (casilla.children.item(0).style.visibility == 'hidden') {
+            casilla.children.item(0).style.visibility = 'visible';
         } else {
-            el.children.item(0).style.visibility = 'hidden';
+            casilla.children.item(0).style.visibility = 'hidden';
         }
     }
 
@@ -127,15 +194,8 @@ class Buscaminas {
     }
 
     reiniciarPartida() {
-        /* 
-        TODO: Función que reinicie la partida
-        */
-    }
-
-    comprobarFinal() {
-        /*
-        TODO: Cada vez que se revele una casilla llamar a esta función y comprobar si se ha ganado
-        */
+        partida.setTablero(this.numeroFilas,this.numeroColumnas,this.numeroMinas);
+        partida.asignarMinas();
     }
 
     hasPerdido(casilla) {
@@ -144,9 +204,6 @@ class Buscaminas {
     }
 
     hasGanado() {
-        /*
-        TODO: Comprobar que se llama a la función cuando se han revelado todas las casillas menos las que contienen minas
-        */
         /* Cuando se llama a la función revela todas las casillas,
         mostrando las minas con un fondo rojo
         y los números con un fondo verde*/

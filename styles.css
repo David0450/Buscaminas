@@ -33,6 +33,10 @@ body {
         color:olivedrab ;
         z-index: 1;
         cursor: pointer;
+
+        &::selection {
+            color: inherit;
+        }
     }
 }
 

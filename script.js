@@ -221,6 +221,21 @@ class Buscaminas {
             }
         }
     }
+    
+
+    confirmarDimensiones() {
+        /* Al pulsar el botón de confirmar dimensiones se asignan los valores de los inputs a variables,
+        se oculta el modal para la configuración de la partida,
+        se modifica el tablero de la partida con estas características 
+        y se asignan las minas a las casillas junto con los números adyacentes*/
+        let numeroColumnas = parseInt(document.getElementById('inputColumnas').value);
+        let numeroFilas = parseInt(document.getElementById('inputFilas').value);
+        let numeroMinas = parseInt(document.getElementById('inputMinas').value);
+        document.getElementById('modalInicio').style.display = 'none';
+        
+        this.setTablero(numeroFilas,numeroColumnas,numeroMinas);
+        this.asignarMinas();
+    }
 }
 
 
@@ -276,20 +291,5 @@ function comprobarInput() {
         document.getElementById('displayFila'+i).innerHTML = "<td></td>".repeat(inputColumnasValue);
     }
 }
-
-function confirmarDimensiones() {
-    /* Al pulsar el botón de confirmar dimensiones se asignan los valores de los inputs a variables,
-    se oculta el modal para la configuración de la partida,
-    se modifica el tablero de la partida con estas características 
-    y se asignan las minas a las casillas junto con los números adyacentes*/
-    let numeroColumnas = parseInt(document.getElementById('inputColumnas').value);
-    let numeroFilas = parseInt(document.getElementById('inputFilas').value);
-    let numeroMinas = parseInt(document.getElementById('inputMinas').value);
-    document.getElementById('modalInicio').style.display = 'none';
-    
-    partida.setTablero(numeroFilas,numeroColumnas,numeroMinas);
-    partida.asignarMinas();
-}
-
 
 const partida = new Buscaminas(0,0,0);

@@ -1,4 +1,32 @@
-class Buscaminas {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: script.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: script.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>class Buscaminas {
     numeroFilas; // Número de filas del tablero
     numeroColumnas; // Número de columnas del tablero
     numeroMinas; // Número de minas en el tablero
@@ -44,8 +72,8 @@ class Buscaminas {
         while (numeroMinasRestantes > 0) { // Mientras sigan habiendo minas que colocar...
             filaMina = Math.trunc(Math.random() * this.numeroFilas); // La fila en la que habrá una mina será un número random entre 0 y el numero de filas
             columnaMina = Math.trunc(Math.random() * this.numeroColumnas); // La columna en la que habrá una mina será un número random entre 0 y el numero de columnas
-            if (this.tablero[filaMina][columnaMina] != '<i class="fa-solid fa-bomb"></i>') { // Si no hay una mina en ese vector, coloca una (icono de mina)
-                this.tablero[filaMina][columnaMina] = '<i class="fa-solid fa-bomb"></i>';
+            if (this.tablero[filaMina][columnaMina] != '&lt;i class="fa-solid fa-bomb">&lt;/i>') { // Si no hay una mina en ese vector, coloca una (icono de mina)
+                this.tablero[filaMina][columnaMina] = '&lt;i class="fa-solid fa-bomb">&lt;/i>';
                 numeroMinasRestantes--; //-1 minas restantes
                 this.asignarNumeros(filaMina, columnaMina); //Ejecuta la función de colocar los números alrededor de la mina
             }
@@ -63,10 +91,10 @@ class Buscaminas {
          * Desde la fila y columna anteriores hasta las posteriores,
          * si no hay una mina y no se sale de las dimensiones del tablero,
          * suma +1 al número en esa casilla*/
-        for (let x = fila-1; x <= fila+1; x++) { 
-            if (x != -1 && x != this.numeroFilas) {
-                for (let y = columna-1; y <= columna+1; y++) {
-                    if (this.tablero[x][y] != '<i class="fa-solid fa-bomb"></i>' && columna != this.numeroColumnas && columna != -1) {
+        for (let x = fila-1; x &lt;= fila+1; x++) { 
+            if (x != -1 &amp;&amp; x != this.numeroFilas) {
+                for (let y = columna-1; y &lt;= columna+1; y++) {
+                    if (this.tablero[x][y] != '&lt;i class="fa-solid fa-bomb">&lt;/i>' &amp;&amp; columna != this.numeroColumnas &amp;&amp; columna != -1) {
                         this.tablero[x][y]++;
                     }
                 }
@@ -79,12 +107,12 @@ class Buscaminas {
      */
     dibujarTablero() {
         this.tableroHTML.innerHTML = '';
-        for (let x = 0; x < this.numeroFilas; x++) { 
+        for (let x = 0; x &lt; this.numeroFilas; x++) { 
             //Por cada fila inserta un td con un id de su número de fila
-            this.tableroHTML.innerHTML += "<tr id='fila"+x+"'></tr>";
-            for (let y = 0; y < this.numeroColumnas; y++) {
+            this.tableroHTML.innerHTML += "&lt;tr id='fila"+x+"'>&lt;/tr>";
+            for (let y = 0; y &lt; this.numeroColumnas; y++) {
                 //Por cada columna crea un td con sus funciones onclick y oncontextmenu junto con el contenido del array del tablero en ese mismo vector
-                document.getElementById("fila"+x+"").innerHTML += "<td id='f"+x+"c"+y+"' onclick='partida.revelarCasilla(this)' oncontextmenu='partida.colocarBandera(this, event)'><i class='fa-solid fa-flag'></i>"+this.tablero[x][y]+"</td>";
+                document.getElementById("fila"+x+"").innerHTML += "&lt;td id='f"+x+"c"+y+"' onclick='partida.revelarCasilla(this)' oncontextmenu='partida.colocarBandera(this, event)'>&lt;i class='fa-solid fa-flag'>&lt;/i>"+this.tablero[x][y]+"&lt;/td>";
             }
         }
     }
@@ -102,7 +130,7 @@ class Buscaminas {
         casilla.children.item(0).style.visibility = 'hidden';
         casilla.style.cursor = 'default';
 
-        //Si la casilla (elemento <td>) tiene un segundo elemento hijo (<i>) se llama a la función hasPerdido()
+        //Si la casilla (elemento &lt;td>) tiene un segundo elemento hijo (&lt;i>) se llama a la función hasPerdido()
         if (casilla.children.item(1)) {
             this.hasPerdido(casilla);
         } else if(casilla.innerHTML.includes('0')) { //Si la casilla es un 0 se llama a la función revelarCasillasVacias
@@ -132,34 +160,34 @@ class Buscaminas {
         if (columna-1 >= 0) { //Si la columna no se sale del tablero...
             let casillaIzquierda = document.getElementById("fila"+(fila)).children.item(columna-1);
             //Si la casilla no tiene bomba y no se ha revelado...
-            if (!casillaIzquierda.children.item(1) && casillaIzquierda.style.backgroundColor != 'whitesmoke') {
+            if (!casillaIzquierda.children.item(1) &amp;&amp; casillaIzquierda.style.backgroundColor != 'whitesmoke') {
                 this.revelarCasilla(casillaIzquierda);
             }
         }
         if (columna+1 != this.numeroColumnas) { //Si la columna no se sale del tablero...
             let casillaDerecha = document.getElementById("fila"+(fila)).children.item(columna+1);
             //Si la casilla no tiene bomba y no se ha revelado...
-            if (!casillaDerecha.children.item(1) && casillaDerecha.style.backgroundColor != 'whitesmoke') {
+            if (!casillaDerecha.children.item(1) &amp;&amp; casillaDerecha.style.backgroundColor != 'whitesmoke') {
                 this.revelarCasilla(casillaDerecha);
             }
         }
         if (fila-1 >= 0) { //Si la fila no se sale del tablero...
             let casillaSuperior = document.getElementById("fila"+(fila-1)).children.item(columna);
              //Si la casilla no tiene bomba y no se ha revelado...*/
-            if (!casillaSuperior.children.item(1) && casillaSuperior.style.backgroundColor != 'whitesmoke') {
+            if (!casillaSuperior.children.item(1) &amp;&amp; casillaSuperior.style.backgroundColor != 'whitesmoke') {
                 this.revelarCasilla(casillaSuperior);
             }
             if (columna-1 >= 0) { //A su vez va a intentar revelar la casilla situada arriba a la izquierda
                 let casillaIzquierda = document.getElementById("fila"+(fila-1)).children.item(columna-1);
                 //Si la casilla no tiene bomba y no se ha revelado...
-                if (!casillaIzquierda.children.item(1) && casillaIzquierda.style.backgroundColor != 'whitesmoke') {
+                if (!casillaIzquierda.children.item(1) &amp;&amp; casillaIzquierda.style.backgroundColor != 'whitesmoke') {
                     this.revelarCasilla(casillaIzquierda);
                 }
             }
             if (columna+1 != this.numeroColumnas) {//A su vez va a intentar revelar la casilla situada arriba a la derecha
                 let casillaDerecha = document.getElementById("fila"+(fila-1)).children.item(columna+1);
                 //Si la casilla no tiene bomba y no se ha revelado...
-                if (!casillaDerecha.children.item(1) && casillaDerecha.style.backgroundColor != 'whitesmoke') {
+                if (!casillaDerecha.children.item(1) &amp;&amp; casillaDerecha.style.backgroundColor != 'whitesmoke') {
                     this.revelarCasilla(casillaDerecha);
                 }
             }
@@ -167,20 +195,20 @@ class Buscaminas {
         if (fila+1 != this.numeroFilas) {
             let casillaInferior = document.getElementById("fila"+(fila+1)).children.item(columna);
             //Si la casilla no tiene bomba y no se ha revelado...
-            if (!casillaInferior.children.item(1) && casillaInferior.style.backgroundColor != 'whitesmoke') {
+            if (!casillaInferior.children.item(1) &amp;&amp; casillaInferior.style.backgroundColor != 'whitesmoke') {
                 this.revelarCasilla(casillaInferior);
             }
             if (columna-1 >= 0) { //A su vez va a intentar revelar la casilla situada abajo a la izquierda
                 let casillaIzquierda = document.getElementById("fila"+(fila+1)).children.item(columna-1);
                 //Si la casilla no tiene bomba y no se ha revelado...
-                if (!casillaIzquierda.children.item(1) && casillaIzquierda.style.backgroundColor != 'whitesmoke') {
+                if (!casillaIzquierda.children.item(1) &amp;&amp; casillaIzquierda.style.backgroundColor != 'whitesmoke') {
                     this.revelarCasilla(casillaIzquierda);
                 }
             }
             if (columna+1 != this.numeroColumnas) { //A su vez va a intentar revelar la casilla situada abajo a la derecha
                 let casillaDerecha = document.getElementById("fila"+(fila+1)).children.item(columna+1);
                 //Si la casilla no tiene bomba y no se ha revelado...
-                if (!casillaDerecha.children.item(1) && casillaDerecha.style.backgroundColor != 'whitesmoke') {
+                if (!casillaDerecha.children.item(1) &amp;&amp; casillaDerecha.style.backgroundColor != 'whitesmoke') {
                     this.revelarCasilla(casillaDerecha);
                 }
             }
@@ -204,8 +232,8 @@ class Buscaminas {
      * Muestra todo el tablero resuelto
      */
     resolverPartida() {
-        for(let x = 0; x < this.numeroFilas; x++) {
-            for (let y = 0; y < this.numeroColumnas; y++) {
+        for(let x = 0; x &lt; this.numeroFilas; x++) {
+            for (let y = 0; y &lt; this.numeroColumnas; y++) {
                 document.getElementById("fila"+x).children.item(y).style.backgroundColor = 'whitesmoke';
                 document.getElementById("fila"+x).children.item(y).style.color = 'black';
                 document.getElementById("fila"+x).children.item(y).style.cursor = 'default';
@@ -239,15 +267,15 @@ class Buscaminas {
      * y los números con un fondo verde
      */
     hasGanado() {
-        for (let x = 0; x < this.numeroFilas; x++) {
-            for (let y = 0; y < this.numeroColumnas; y++) {
+        for (let x = 0; x &lt; this.numeroFilas; x++) {
+            for (let y = 0; y &lt; this.numeroColumnas; y++) {
                 document.getElementById("fila"+x).children.item(y).style.backgroundColor = 'mediumseagreen'
                 document.getElementById("fila"+x).children.item(y).style.color = 'black';
                 document.getElementById("fila"+x).children.item(y).style.cursor = 'default';
                 document.getElementById("fila"+x).children.item(y).onclick = '';
                 document.getElementById("fila"+x).children.item(y).oncontextmenu = '';
                 document.getElementById("fila"+x).children.item(y).children.item(0).style.visibility = 'hidden';
-                if (document.getElementById("fila"+x).children.item(y).children.item(1) && document.getElementById("fila"+x).children.item(y).children.item(1).classList.contains('fa-bomb')) {
+                if (document.getElementById("fila"+x).children.item(y).children.item(1) &amp;&amp; document.getElementById("fila"+x).children.item(y).children.item(1).classList.contains('fa-bomb')) {
                     document.getElementById("fila"+x).children.item(y).style.backgroundColor = 'firebrick';
                 }
             }
@@ -297,7 +325,7 @@ function comprobarInput() {
      * si no se cumple lo anterior el número de minas es el valor del input
      */
     let inputMinas = document.getElementById('inputMinas');
-    if (parseInt(inputMinas.value) < Math.trunc((inputFilasValue*inputColumnasValue)/6)) {
+    if (parseInt(inputMinas.value) &lt; Math.trunc((inputFilasValue*inputColumnasValue)/6)) {
         inputMinasValue = Math.trunc((inputFilasValue*inputColumnasValue)/6);
     } else if (parseInt(inputMinas.value) > Math.trunc((inputFilasValue*inputColumnasValue)/2)) {
         inputMinasValue = Math.trunc((inputFilasValue*inputColumnasValue)/2);
@@ -313,21 +341,43 @@ function comprobarInput() {
     let restoRojas = inputMinasValue % inputColumnasValue;
 
     //Va insertando aquellas casillas rojas
-    for (let i = 0; i < filasRojas; i++) {
-        displayTablero.innerHTML += "<tr id=displayFila"+i+"></tr>";
-        document.getElementById('displayFila'+i).innerHTML = "<td style='background-color:red'></td>".repeat(inputColumnasValue);
+    for (let i = 0; i &lt; filasRojas; i++) {
+        displayTablero.innerHTML += "&lt;tr id=displayFila"+i+">&lt;/tr>";
+        document.getElementById('displayFila'+i).innerHTML = "&lt;td style='background-color:red'>&lt;/td>".repeat(inputColumnasValue);
     }
 
     //Aquí se inserta la última fila con casillas rojas, ya que no todas las casillas de esta fila serán rojas
-    displayTablero.innerHTML += "<tr id=displayFila"+filasRojas+"></tr>";
-    document.getElementById('displayFila'+filasRojas).innerHTML = "<td style='background-color: red'></td>".repeat(restoRojas);
-    document.getElementById('displayFila'+filasRojas).innerHTML += "<td></td>".repeat(inputColumnasValue - restoRojas);
+    displayTablero.innerHTML += "&lt;tr id=displayFila"+filasRojas+">&lt;/tr>";
+    document.getElementById('displayFila'+filasRojas).innerHTML = "&lt;td style='background-color: red'>&lt;/td>".repeat(restoRojas);
+    document.getElementById('displayFila'+filasRojas).innerHTML += "&lt;td>&lt;/td>".repeat(inputColumnasValue - restoRojas);
     
     //Va insertando el resto de filas con sus casillas vacías
-    for (let i = filasRojas+1; i < inputFilasValue; i++) {
-        displayTablero.innerHTML += "<tr id=displayFila"+i+"></tr>";
-        document.getElementById('displayFila'+i).innerHTML = "<td></td>".repeat(inputColumnasValue);
+    for (let i = filasRojas+1; i &lt; inputFilasValue; i++) {
+        displayTablero.innerHTML += "&lt;tr id=displayFila"+i+">&lt;/tr>";
+        document.getElementById('displayFila'+i).innerHTML = "&lt;td>&lt;/td>".repeat(inputColumnasValue);
     }
 }
 
-const partida = new Buscaminas(0,0,0);
+const partida = new Buscaminas(0,0,0);</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#comprobarInput">comprobarInput</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Tue Nov 19 2024 03:21:27 GMT+0100 (hora estándar de Europa central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
